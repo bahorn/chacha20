@@ -141,4 +141,5 @@ class ChaCha20:
         return self.crypt(data)
 
     def set_counter(self, value):
+        self._left = b''
         self._couter = value
