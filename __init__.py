@@ -1,1 +1,1 @@
-from chacha20 import ChaCha20
+from .chacha20 import ChaCha20
