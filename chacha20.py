@@ -1,6 +1,7 @@
 """
 A pure-python ChaCha20 implementation.
 """
+import math
 import struct
 
 
@@ -46,6 +47,7 @@ class ChaCha20:
     https://en.wikipedia.org/wiki/Salsa20#ChaCha_variant
     """
     STATESIZE = 16
+    WORDSIZE = 4
 
     def __init__(self, key, nonce, counter=0):
         if len(key) != 32:
@@ -142,4 +144,12 @@ class ChaCha20:
 
     def set_counter(self, value):
         self._left = b''
-        self._couter = value
+        self._counter = value
+
+    def set_pos(self, pos):
+        self._left = b''
+        # determine the counter value
+        size = self.WORDSIZE * self.STATESIZE
+        self._counter = math.floor(pos / size)
+        self._left = self.keystream(size)
+        self._left = self._left[pos % size:]
